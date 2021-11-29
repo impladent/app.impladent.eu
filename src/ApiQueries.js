@@ -9,4 +9,4 @@ const options = {
     }
 };
 
-export const getUsers = () => fetch('http://localhost:8080/schedule?id=7', options).then(response => response.json());
+export const getSchedule = (day, month, year) => () => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/schedule?day=${day}&month=${month}&year=${year}`, options).then(response => response.json());

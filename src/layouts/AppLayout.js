@@ -1,7 +1,6 @@
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { CircularProgress, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,17 +8,18 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import decode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocalStorage, useToggle } from 'react-use';
-import logo from '../public/logo.svg'
-import Copyright from './Copyright';
+import { useToggle } from 'react-use';
+import logo from '../../public/logo.svg';
+import Copyright from '../components/Copyright';
+import { useToken } from '../providers/TokenProvider';
+import { AppLoader } from './AppLoader';
 
-export function AppLayout({ children, isLoading = false }) {
+export function AppLayout({ children, title, subtitle, isLoading = false }) {
     const [open, toggle] = useToggle(false);
-    const [value] = useLocalStorage('impladent_access_token_v1');
+    const [token] = useToken();
     const { push } = useRouter();
 
     return (
@@ -27,20 +27,24 @@ export function AppLayout({ children, isLoading = false }) {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
+                        onClick={toggle}
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon onClick={toggle}/>
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Impladent
+                        {title}
                     </Typography>
-                    <Button color="inherit">{decode(value).sub}</Button>
+                    <Button color="inherit">{token.sub}</Button>
                 </Toolbar>
                 <Drawer anchor="left" open={open} onClose={toggle}>
+                    <Box p={3} pt={5}  textAlign="center">
+                        <img src={logo.src} alt="logo" style={{ width: 200, height: 50 }}/>
+                    </Box>
                     <Box
                         sx={{ width: 250 }}
                         role="presentation"
@@ -50,39 +54,30 @@ export function AppLayout({ children, isLoading = false }) {
                         <List>
                             <ListItem button>
                                 <ListItemIcon>
-                                    <InboxIcon/>
+                                    <PersonIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Wizyty" onClick={() => push('/appointments')}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <MailIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="opcja2"/>
+                                <ListItemText primary="Wizyty" onClick={async () => await push('/wizyty')}/>
                             </ListItem>
                         </List>
                     </Box>
                 </Drawer>
             </AppBar>
-            <Container maxWidth="sm" component="main"
-                       sx={{ height: 'calc(100vh - 124px)', overflowX: 'clip', overflowY: 'scroll', marginTop: 2 }}>
-                {isLoading ? <Loader/> : <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>}
-            </Container>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+                {isLoading ? <AppLoader/> :
+                    <Container maxWidth="sm" component="main" sx={{
+                        height: 'calc(100vh - 124px)',
+                        overflowX: 'clip',
+                        overflowY: 'scroll',
+                        marginTop: 2,
+                        position: 'relative'
+                    }}>
+                        {subtitle && <Box p={1}><Typography variant="h5">{subtitle}</Typography></Box>}
+                        {children}
+                    </Container>}
+            </ErrorBoundary>
             <Copyright/>
         </React.Fragment>
     )
-}
-
-function Loader() {
-    return (
-        <Box display="flex" alignItems="center" justifyContent="center" height="100%" flexDirection="column"
-             justifyItems="space-between">
-            <Box p={4}>
-                <img src={logo} alt="logo" style="width: 300px; height: 82px"/>
-            </Box>
-            <CircularProgress/>
-        </Box>
-    );
 }
 
 function ErrorFallback() {

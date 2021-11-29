@@ -5,7 +5,7 @@ import * as React from 'react';
 
 export default function Copyright() {
     return (
-        <Box p={2}>
+        <Box p={2} component="footer">
             <Typography variant="body2" color="text.secondary" align="center">
                 {'Copyright © '}
                 <MuiLink color="inherit" href="https://impladent.eu/">

@@ -42,7 +42,7 @@ export function AppLayout({ children, title, subtitle, isLoading = false }) {
                     <Button color="inherit">{token.sub}</Button>
                 </Toolbar>
                 <Drawer anchor="left" open={open} onClose={toggle}>
-                    <Box p={3} pt={5}  textAlign="center">
+                    <Box p={3} pt={5} textAlign="center">
                         <img src={logo.src} alt="logo" style={{ width: 200, height: 50 }}/>
                     </Box>
                     <Box
@@ -56,7 +56,7 @@ export function AppLayout({ children, title, subtitle, isLoading = false }) {
                                 <ListItemIcon>
                                     <PersonIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Wizyty" onClick={async () => await push('/wizyty')}/>
+                                <ListItemText primary="Wizyty" onClick={async () => await push('/')}/>
                             </ListItem>
                         </List>
                     </Box>

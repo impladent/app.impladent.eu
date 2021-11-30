@@ -15,9 +15,15 @@ export default function TokenProvider({ children }) {
     );
 }
 
-function getToken() {
+export function getToken() {
     if (typeof window !== 'undefined' && localStorage.getItem(ACCESS_TOKEN_KEY)) {
         return decode(localStorage.getItem(ACCESS_TOKEN_KEY));
+    }
+}
+
+export function setToken(value) {
+    if (typeof window !== 'undefined') {
+        localStorage.setItem(ACCESS_TOKEN_KEY, value)
     }
 }
 

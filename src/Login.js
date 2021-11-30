@@ -4,14 +4,21 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
+import { useSnackbar } from 'notistack';
 import React from 'react';
 import logo from '../public/logo.svg';
 import Copyright from './components/Copyright';
 
 export default function Login({ onToken }) {
+    const { enqueueSnackbar } = useSnackbar();
     return (
         <React.Fragment>
-            <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', justifyContent: 'space-evenly', flexDirection: 'column' }}>
+            <Container maxWidth="sm" sx={{
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'space-evenly',
+                flexDirection: 'column'
+            }}>
                 <Box p={3} pt={5} pb={5} textAlign="center">
                     <img src={logo.src} alt="logo" style={{ width: '300px', height: '82px' }}/>
                 </Box>
@@ -37,6 +44,9 @@ export default function Login({ onToken }) {
                                 })
                                     .then(response => response.json())
                                     .then(json => onToken(json.token))
+                                    .catch(reason => {
+                                        enqueueSnackbar('Logowanie nieudane.', { variant: 'error' });
+                                    })
                                     .then(() => setSubmitting(false))
                             }}
                     >
@@ -67,6 +77,7 @@ export default function Login({ onToken }) {
                                 </Box>
                                 <Box m={3}>
                                     <Button
+                                        type="submit"
                                         size="large"
                                         fullWidth
                                         variant="contained"
@@ -77,7 +88,7 @@ export default function Login({ onToken }) {
                                         Wyślij
                                     </Button>
                                 </Box>
-                                <Box m={3}>{isSubmitting && <LinearProgress/>}</Box>
+                                <Box p={3}>{isSubmitting && <LinearProgress/>}</Box>
                             </Form>
                         )}
                     </Formik>

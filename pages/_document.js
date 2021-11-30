@@ -7,7 +7,7 @@ import theme from '../src/theme';
 export default class MyDocument extends Document {
     render() {
         return (
-            <Html lang="pl">
+            <Html lang="pl" style={{height: '100%', width: '100%', position: 'fixed'}}>
                 <Head>
                     <meta name="theme-color" content={theme.palette.primary.main}/>
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>

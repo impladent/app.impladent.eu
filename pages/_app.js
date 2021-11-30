@@ -6,12 +6,12 @@ import { useRouter } from 'next/router';
 import { SnackbarProvider } from 'notistack';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import createEmotionCache from '../src/createEmotionCache';
 import Login from '../src/Login';
-import TokenProvider, { useToken } from '../src/providers/TokenProvider';
+import TokenProvider, { getToken, setToken } from '../src/providers/TokenProvider';
 import theme from '../src/theme';
 
 const queryClient = new QueryClient();
@@ -51,7 +51,7 @@ export default function MyApp({ Component, emotionCache = createEmotionCache(), 
 }
 
 function LoginRequired({ children }) {
-    const [token, setToken] = useToken();
+    const token = getToken();
     const { push } = useRouter();
     const updateToken = (token) => {
         setToken(token);

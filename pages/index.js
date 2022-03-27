@@ -1,5 +1,4 @@
-import { DatePicker, LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { DatePicker } from '@mui/lab';
 import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import { format, formatDuration, intervalToDuration } from 'date-fns'
@@ -11,15 +10,6 @@ import { getSchedule } from '../src/ApiQueries';
 import { AppointmentsTimeline } from '../src/components/AppointmentsTimeline';
 import { AppLayout } from '../src/layouts/AppLayout';
 
-function DateSelector({ onChange, value }) {
-    return (
-        <LocalizationProvider dateAdapter={AdapterDateFns} locale={pl}>
-            <DatePicker value={value} onChange={onChange} disableCloseOnSelect={false} label="Wybierz datę" showTodayButton={true}
-                        renderInput={(params) => <TextField fullWidth {...params} />}/>
-        </LocalizationProvider>
-    );
-}
-
 export default function Appointments() {
 
     const [state, setState] = useState((prev) => {
@@ -28,7 +18,10 @@ export default function Appointments() {
         }
     );
 
-    const { isLoading, data = [] } = useQuery(['schedule', format(state.reportDate, 'yyyy-MM-dd')], getSchedule(format(state.reportDate, 'yyyy-MM-dd')))
+    const {
+        isLoading,
+        data = []
+    } = useQuery(['schedule', format(state.reportDate, 'yyyy-MM-dd')], getSchedule(format(state.reportDate, 'yyyy-MM-dd')))
 
     return (
         <AppLayout isLoading={isLoading} title="Moje wizyty" subtitle={`Dzisiejsze wizyty: ${data.entries.length}`}>
@@ -43,6 +36,13 @@ export default function Appointments() {
         window.history.replaceState({}, '', `${window.location.pathname}?${queryParams}`);
         setState((prev) => ({ reportDate: date, lastDate: prev.reportDate }));
     }
+}
+
+function DateSelector({ onChange, value }) {
+    return (
+        <DatePicker value={value} onChange={onChange} disableCloseOnSelect={false} label="Wybierz datę"
+                    showTodayButton={true} renderInput={(params) => <TextField fullWidth {...params} />}/>
+    );
 }
 
 function getDuration(start, end) {

@@ -21,7 +21,7 @@ export function AppointmentsTimeline({ data = [] }) {
     function renderTimeLineItem(item, key) {
         return (
             <TimelineItem key={`${item.start}-${item.end}-${key}`}>
-                <TimelineOppositeContent style={{ flex: 0 }}>
+                <TimelineOppositeContent style={{ flex: 0, minWidth: 80 }}>
                     <Typography color="textSecondary">
                         {format(new Date(item.start), 'HH:mm', { locale: pl })}
                     </Typography>

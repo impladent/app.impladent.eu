@@ -7,7 +7,7 @@ export default function Copyright() {
     return (
         <Box p={2} component="footer">
             <Typography variant="body2" color="text.secondary" align="center">
-                {'Copyright © '}
+                v1.0.0 @&nbsp;
                 <MuiLink color="inherit" href="https://impladent.eu/">
                     impladent.eu
                 </MuiLink>

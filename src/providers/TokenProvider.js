@@ -10,8 +10,9 @@ export default function TokenProvider({ children }) {
     const setToken = (value) => localStorage.setItem(ACCESS_TOKEN_KEY, value);
     const token = getToken();
     return (
-        <TokenContext.Provider
-            value={[token, setToken, clearToken]}>{children}</TokenContext.Provider>
+        <TokenContext.Provider value={{ token, setToken, clearToken }}>
+            {children}
+        </TokenContext.Provider>
     );
 }
 

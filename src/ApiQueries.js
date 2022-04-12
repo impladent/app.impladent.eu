@@ -25,6 +25,12 @@ export const submitLeave = ({ values }) => fetch(`${process.env.NEXT_PUBLIC_API_
     }
 });
 
+export const getUsers = () => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/users`, {
+    headers: {
+        'Authorization': `Bearer ${window.localStorage.getItem('impladent_access_token_v1')?.replaceAll('"', '')}`
+    }
+}).then(response => response.json());
+
 export function onMutationError(enqueueSnackbar, error) {
     return enqueueSnackbar('Wystąpił błąd!', { variant: 'error' });
 }

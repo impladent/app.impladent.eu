@@ -1,10 +1,11 @@
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PeopleIcon from '@mui/icons-material/People';
 import PersonIcon from '@mui/icons-material/Person';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import logo from '../../public/logo.svg';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export function AppDrawer({ open, onClose }) {
     const { push } = useRouter();
@@ -32,6 +33,12 @@ export function AppDrawer({ open, onClose }) {
                             <CalendarMonthIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Urlopy" onClick={async () => await push('/urlopy')}/>
+                    </ListItemButton>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <PeopleIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Użytkownicy" onClick={async () => await push('/uzytkownicy')}/>
                     </ListItemButton>
                 </List>
             </Box>

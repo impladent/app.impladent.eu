@@ -59,6 +59,7 @@ function LoginRequired({ children }) {
     const token = getToken();
     const { push } = useRouter();
     const updateToken = async (token) => {
+        if(!token) return;
         setToken(token);
         await push('/');
     };

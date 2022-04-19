@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 
 export const TokenContext = createContext();
 
-const ACCESS_TOKEN_KEY = 'impladent_access_token_v1';
+const ACCESS_TOKEN_KEY = 'impladent_access_token_v2';
 
 export default function TokenProvider({ children }) {
     const clearToken = () => localStorage.removeItem(ACCESS_TOKEN_KEY);

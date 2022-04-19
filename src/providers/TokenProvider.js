@@ -18,7 +18,9 @@ export default function TokenProvider({ children }) {
 
 export function getToken() {
     if (typeof window !== 'undefined' && localStorage.getItem(ACCESS_TOKEN_KEY)) {
-        return decode(localStorage.getItem(ACCESS_TOKEN_KEY));
+        if (localStorage.getItem(ACCESS_TOKEN_KEY)) {
+            return decode(localStorage.getItem(ACCESS_TOKEN_KEY));
+        }
     }
 }
 

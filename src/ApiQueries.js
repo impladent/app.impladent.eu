@@ -1,20 +1,18 @@
+import { ACCESS_TOKEN_KEY } from './providers/TokenProvider';
+
+const token = window.localStorage.getItem(ACCESS_TOKEN_KEY)?.replaceAll('"', '');
+
 export const getSchedule = (date) => () => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/schedule?date=${date}`, {
-    headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem('impladent_access_token_v1')?.replaceAll('"', '')}`
-    }
+    headers: { 'Authorization': `Bearer ${token}` }
 }).then(response => response.json());
 
 export const getLeaveTypes = () => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/leave/types`, {
-    headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem('impladent_access_token_v1')?.replaceAll('"', '')}`
-    }
+    headers: { 'Authorization': `Bearer ${token}` }
 }).then(response => response.json());
 
 export const submitLeave = ({ values }) => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/leave`, {
     method: 'POST',
-    headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem('impladent_access_token_v1')?.replaceAll('"', '')}`
-    },
+    headers: { 'Authorization': `Bearer ${token}` },
     body: JSON.stringify(values)
 }).then(async response => {
     const isJson = response.headers.get('content-type')?.includes('application/json');
@@ -26,9 +24,7 @@ export const submitLeave = ({ values }) => fetch(`${process.env.NEXT_PUBLIC_API_
 });
 
 export const getUsers = () => fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/users`, {
-    headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem('impladent_access_token_v1')?.replaceAll('"', '')}`
-    }
+    headers: { 'Authorization': `Bearer ${token}` }
 }).then(response => response.json());
 
 export function onMutationError(enqueueSnackbar, error) {
